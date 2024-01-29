@@ -17,3 +17,22 @@ header {
     padding-left: 55px;
     padding-right: 55px;
 }
+
+.show {
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+/* buttons*/
+.viewHighScores:hover{
+    cursor: pointer;
+    color: var(--tertiaryColor)
+}
+
+.start-quiz:hover {
+    cursor: pointer;
+    color: var(--tertiaryColor)
+}
