@@ -15,7 +15,7 @@
     <div id="quizMain-Container" class="show">
         <div class="quizStartScreen">
             <h1>Nicks Coding Quiz</h1>
-            <p>Its a race against the clock, with this high energy coding quiz challenge! For each correct answer
+            <p>Its a race against the clock, with this high energy quiz challenge! For each correct answer
                 you will be awarded with 5 points! Be careful because each incorrect answer will not only cost you
                 5 points, but will also cost you 2 seconds! Best of luck!
             </p>
@@ -23,12 +23,25 @@
         </div>
     </div>
 
-    <div id="quizQuestions-Container">
+    <div id="quizQuestions-Container" class="hidden">
         <div class="ask the question">
             <div id="questions"></div>
-            <div id="answer-buttons" class="column buttons"></div>
+            <div id="answer-buttons" class="column-buttons"></div>
         </div>
+    </div>
 
+    <div id="end-of-quiz-container" class="hidden">
+        <div class="end container">
+            <div id="scores">
+                <h1>Quiz Complete!</h1>
+            </div>
+            <form id="initials-form">
+                <p>Enter your Initials: 
+                    <input type="text" name="initials" id="initials" class="text-input" />
+                    <button class="button-start/end" id="submit-score&initials" type="submit">Submit</button>
+                </p>
+            </form>
+        </div>
     </div>
     
     <div id="container-high-score" class="hidden">
@@ -38,6 +51,14 @@
         </div>
             <button class="button" id="back"><-Go Back</button>
             <button class="button" id="clear-high-scores">Clear High Scores :(</button>
+    </div>
+
+    <div class="hidden" id="correctAnswer">
+        <h2>Correct!!</h2>
+    </div>
+
+    <div class="hidden" id="wrongAnswer">
+        <h2>Wrong! :(</h2>
     </div>
 </body>
 </html>
