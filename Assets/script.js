@@ -31,68 +31,90 @@ var QuestionsIndex = 0
 
 //questions
 var quizQuestions = [
-{Q: 'The Crusades were _________________________',
-A: 'A series of religious wars which took place between 1095 and 1291'
-choices: [{choice: '1. A deadly curse typically cast by Death Eaters'},
-            {choice: '2. A series of religious wars which took place between 1095 and 1291'}, 
-            {choice: '3. A detalied painting of an alien abduction'},
-            {choice: '4. A terrible ice cream flavor'}]}
+    {
+        Q: 'The Crusades were _________________________',
+        A: 'A series of religious wars which took place between 1095 and 1291'
+choices: [{ choice: '1. A deadly curse typically cast by Death Eaters' },
+        { choice: '2. A series of religious wars which took place between 1095 and 1291' },
+        { choice: '3. A detalied painting of an alien abduction' },
+        { choice: '4. A terrible ice cream flavor' }]
+    },
+
+    {
+        Q: 'Sociology is the study of what?',
+        A: 'Social life, human interaction, and society'
+choices: [{ choice: '1. Social life, human inteaction, and society' },
+        { choice: '2. Spiders and how they influence society' },
+        { choice: '3. Becoming a better adult learner' },
+        { choice: '4. A terrible ice cream flavor' }]
+    }
 ];
 
-var displayStartScreen = function() {
-containerHighScoresEl.classList.add('hidden')
-containerHighScoresEl.classList.remove('show')
-mainQuizContainer.classList.remove('hidden')
-mainQuizContainer.classList.add('show')
-containerScoreEl.removeChild(containerScoreEl.lastChild)
-QuestionsIndex = 0
-GAMEOVER = ''
-timeEl.textContent = 0
-score = 0
+var displayStartScreen = function () {
+    containerHighScoresEl.classList.add('hidden')
+    containerHighScoresEl.classList.remove('show')
+    mainQuizContainer.classList.remove('hidden')
+    mainQuizContainer.classList.add('show')
+    containerScoreEl.removeChild(containerScoreEl.lastChild)
+    QuestionsIndex = 0
+    GAMEOVER = ''
+    timeEl.textContent = 0
+    score = 0
 
-if (correctAnswerEl.className = "show") {
-    correctAnswerEl.classList.remove("show");
-    correctAnswerEl.classList.add("hidden")
-}
-if (wrongAnswerEl.className = "show") {
-    wrongAnswerEl.classList.remove("show");
-    wrongAnswerEl.classList.add("hidden");
-}
-
-var setTime = function();
-timeRemaining = 30;
-
-var timeChecker = setInterval(function() {
-    timeEl.innerText = timeRemaining;
-    timeRemaining--
-
-    if (gameover) {
-        clearInterval(timeChecker)
+    if (correctAnswerEl.className = "show") {
+        correctAnswerEl.classList.remove("show");
+        correctAnswerEl.classList.add("hidden")
     }
-
-    if (timeRemaining < 0) {
-        showScore()
-        timeEl.innerText = 0
-        clearInterval(timeChecker)
+    if (wrongAnswerEl.className = "show") {
+        wrongAnswerEl.classList.remove("show");
+        wrongAnswerEl.classList.add("hidden");
     }
+}
+var setTime = function () {
+    timeRemaining = 30;
 
-}, 1000)
+    var timeChecker = setInterval(function () {
+        timeEl.innerText = timeRemaining;
+        timeRemaining--
+
+        if (gameover) {
+            clearInterval(timeChecker)
+        }
+
+        if (timeRemaining < 0) {
+            showScore()
+            timeEl.innerText = 0
+            clearInterval(timeChecker)
+        }
+
+    }, 1000)
 
 }
 
 //to start game
-var startQuiz = function() {
-mainQuizContainer.classList.add(hidden);
-mainQuizContainer.classList.remove(show);
-quizQuestionEl.classList.remove(hidden);
-quizQuestionEl.classList.add(show);
-arrayRandomQuestions = quizQuestions.sort(() => Math.random() - .5)
-setTime()
-setQuestion()
+var startQuiz = function () {
+    mainQuizContainer.classList.add(hidden);
+    mainQuizContainer.classList.remove(show);
+    quizQuestionEl.classList.remove(hidden);
+    quizQuestionEl.classList.add(show);
+    arrayRandomQuestions = quizQuestions.sort(() => Math.random() - .5)
+    setTime()
+    setQuestion()
+}
+
+var setQuestion = function () {
+    resetAnswers()
+    displayQuestion(arrayRandomQuestions[QuestionsIndex])
+}
+
+var resetAnswers = function () {
+    while (answerButton.firstChild) {
+        answerButtonEl.removeChild(answerButtonEl.firstChild)
+    }
 }
 
 // display the questions and answers
-var displayQuestion = function(index) {
+var displayQuestion = function (index) {
     quizQuestionEl.innerText = index.q
     for (var i = 0; i < index.choices.length; i++) {
         var answerButton = document.createElement('button')
@@ -103,10 +125,28 @@ var displayQuestion = function(index) {
     }
 };
 
+var answerCorrect = function () {
+    if (correctEl.className = 'hidden') {
+        correctEl.classList.remove('hidden')
+        correctEl.classList.add('banner')
+        wrongEl.classList.remove('banner')
+        wrongEl.classList.add('hidden')
+    }
+}
+
+var answerWrong = function () {
+    if (wrongEl.className = 'hidden') {
+        wrongEl.classList.remove('hidden')
+        wrongEl.classList.add('banner')
+        correctEl.classList.remove('banner')
+        correctEl.classList.add('hidden')
+    }
+}
+
 // answer check
-var checkAnswer = function(event) {
+var checkAnswer = function (event) {
     var chosenAnswer = event.target
-    if (arrayRandomQuestions[QuestionsIndex].a ===chosenAnswer.innerText) {
+    if (arrayRandomQuestions[QuestionsIndex].a === chosenAnswer.innerText) {
         answerCorrect()
         score = score + 5
     }
@@ -125,6 +165,47 @@ var checkAnswer = function(event) {
         gameover = 'true'
         showScore()
     }
+}
+
+var showScore = function () {
+    quizQuestionEl.classList.add('hidden');
+    endOfQuizContainerEl.classList.remove('hidden')
+    endOfQuizContainerEl.classList.add('show')
+
+    var displayHighScores = document.createElement('p')
+    displayHighScores.innerText = ('Your final score is' + score + '!!')
+    containerScoreEl.appendChild(displayHighScores)
+}
+
+var createHighScores = function (event) {
+    event.preventDefault()
+    var initials = document.querySelector('#initials').value;
+    if (!initials) {
+        alert('Enter your initials!')
+        return
+    }
+
+    var highScores = {
+        initials: initials,
+        score: score
+    }
+
+    createHighScores.push(highScores);
+    createHighScores.sort((a, b) => { return b.score - a.score });
+
+    while (listHighScoresEL.firstChild) {
+        listHighScoresEL.removeChild(listHighScoresEL.firstChild)
+    }
+
+    for (var i = 0; i < highScores.length; i++) {
+        var highScoreEl = document.createElement('li')
+        highScoreEl.className = 'high-score';
+        highScoreEl.innerText = StoredHighScores[i].initials + ' - ' + StoredHighScores[i].score;
+        listHighScoresEL.appendChild(highScoreEl);
+
+        highScores.push(StoredHighScores[i])
+    }
+
 }
 
 //stored high scores
