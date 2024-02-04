@@ -214,12 +214,59 @@ var highScoresScreen = function () {
     if (!StoredHighScores) {
         return false;
     }
+
+    StoredHighScores = JSON.parse(StoredHighScores);
+    StoredHighScores.sort((a, b) => {return b.score-a.score})
+
+    for (var i = 0; i < StoredHighScores.length; i++) {
+        var highScoreEl = document.createElement('li');
+        highScoreEl.className = 'high-score';
+        highScoreEl.appendChild(highScoreEl)
+
+        highScores.push(StoredHighScores[i]);
+    }
 }
 
 var displayHighScores = function () {
 
     containerHighScoresEl.classList.remove('hide');
     containerHighScoresEl.classList.add('show');
+    gameover = 'true'
+
+    if (endOfQuizContainerEl.className = 'show') {
+        endOfQuizContainerEl.classList.remove('show');
+        endOfQuizContainerEl.classList.add('hide')
+    }
+
+    if (mainQuizContainer.className = 'show') {
+        mainQuizContainer.classList.remove('show');
+        mainQuizContainer.classList.add('hide')
+    }
+
+    if (quizQuestionsEl.className = 'show') {
+        quizQuestionEl.classList.remove('show');
+        quizQuestionsEl.classList.add('hide')
+    }
+
+    if (correctAnswerEl.className = 'show') {
+        correctAnswerEl.classList.remove('show');
+        correctAnswerEl.classList.add('hide');
+    }
+
+    if (wrongAnswerEl.className = 'show') {
+        wrongAnswerEl.classList.remove('show');
+        wrongAnswerEl.classList.add('hide');
+    }
+
+}
+
+var clearScores = function() {
+    HighScores = [];
+
+    while (listHighScoresEL.firstChild) {
+        listHighScoresEL.removeChild(listHighScoresEL.firstChild)
+    }
+    localStorage.clear(HighScores)
 }
 
 
